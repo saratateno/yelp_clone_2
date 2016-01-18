@@ -1,7 +1,7 @@
 require "rails_helper"
 
-feature "restaraunts" do
-  context "No restaraunts have been added" do
+feature "Restaurants" do
+  context "no restaurants have been added" do
     scenario "should display a prompt to add a restaurant" do
       visit "/restaurants"
       expect(page).to have_content "No restaurants yet!"
@@ -17,7 +17,19 @@ feature "restaraunts" do
     scenario "displays restaurants" do
       visit "/restaurants"
       expect(page).to have_content "Nandos"
-      expect(page).not_to have_content "No restaraunts yet!"
+      expect(page).not_to have_content "No restaurants yet!"
+    end
+  end
+
+  context "creating restaurants" do
+    scenario "ability to add restaurants" do
+      visit "/restaurants"
+      click_link "Add a restaurant"
+      expect(current_path).to eq "/restaurants/new"
+      fill_in "Name", with: "Nandos"
+      click_button "Create Restaurant"
+      expect(page).to have_content "Nandos"
+      expect(current_path).to eq "/restaurants"
     end
   end
 end
