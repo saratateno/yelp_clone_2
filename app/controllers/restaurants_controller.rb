@@ -9,7 +9,7 @@ class RestaurantsController < ApplicationController
 
   def create
     Restaurant.create(restaurant_params)
-    redirect_to "/restaurants"
+    redirect_to restaurants_path
   end
 
   def show
@@ -28,7 +28,7 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.find(params[:id])
     @restaurant.update(restaurant_params)
 
-    redirect_to "/restaurants"
+    redirect_to restaurants_path
   end
 
   def destroy
@@ -36,6 +36,6 @@ class RestaurantsController < ApplicationController
     @restaurant.destroy
     flash[:notice]= "#{@restaurant.name} has been deleted"
 
-    redirect_to "/restaurants"
+    redirect_to restaurants_path
   end
 end
