@@ -13,5 +13,4 @@ feature "reviewing" do
     expect(current_path).to eq "/restaurants"
     expect(page).to have_content "I don't even like chicken"
   end
-
 end

@@ -69,5 +69,15 @@ feature "Restaurants" do
         expect(page).to have_content "Nandos has been deleted"
       end
     end
+
+    context "prevents restaurant duplication" do
+      scenario "restaurants added must be unique" do
+        visit "/restaurants"
+        click_link "Add a restaurant"
+        fill_in "Name", with: "Nandos"
+        click_button "Create Restaurant"
+        expect(page).to have_content "error"
+      end
+    end
   end
 end
