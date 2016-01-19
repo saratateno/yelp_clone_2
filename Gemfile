@@ -48,4 +48,6 @@ end
 group :test do
   gem "rspec-rails"
   gem "capybara"
+  #below gem enables ActiveRecord validation checking
+  gem "rspec-collection_matchers"
 end
