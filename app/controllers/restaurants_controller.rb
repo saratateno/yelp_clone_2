@@ -4,12 +4,12 @@ class RestaurantsController < ApplicationController
   end
 
   def new
-    @restaurants = Restaurant.new
+    @restaurant = Restaurant.new
   end
 
   def create
-    @restaurants = Restaurant.new(restaurant_params)
-    if @restaurants.save
+    @restaurant = Restaurant.new(restaurant_params)
+    if @restaurant.save
       redirect_to restaurants_path
     else
       render 'new'

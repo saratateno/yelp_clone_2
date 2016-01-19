@@ -1,13 +1,13 @@
-- if @restaurants.errors.any?
+- if @restaurant.errors.any?
   %section#errors
     %h2
-      = pluralize @restaurants.errors.count, "error"
+      = pluralize @restaurant.errors.count, "error"
       prohibited this restaurant from being saved:
     %ul
-      - @restaurants.errors.full_messages.each do |message|
+      - @restaurant.errors.full_messages.each do |message|
         %li= message
 
-= form_for @restaurants do |f|
+= form_for @restaurant do |f|
   = f.label :name
   = f.text_field :name
   = f.submit
