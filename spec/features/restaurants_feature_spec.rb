@@ -10,26 +10,45 @@ feature "Restaurants" do
     end
 
     context "creating restaurants" do
-      before do
-        visit "/restaurants"
-        click_link "Add a restaurant"
-      end
 
-      scenario "ability to add restaurants" do
-        expect(current_path).to eq "/restaurants/new"
-        fill_in "Name", with: "Nandos"
-        click_button "Create Restaurant"
-        expect(page).to have_content "Nandos"
-        expect(current_path).to eq "/restaurants"
-      end
+      context "when signed up" do
 
-      context "an invalid restaurant" do
-        scenario "does not let you submit a name that is too short" do
-          fill_in "Name", with: 'Na'
-          click_button "Create Restaurant"
-          expect(page).not_to have_css "h2", text: "Na"
-          expect(page).to have_content "error"
+        before do
+          visit "/restaurants"
+          sign_up
+          click_link "Add a restaurant"
         end
+
+        scenario "ability to add restaurants" do
+          expect(current_path).to eq "/restaurants/new"
+          fill_in "Name", with: "Nandos"
+          click_button "Create Restaurant"
+          expect(page).to have_content "Nandos"
+          expect(current_path).to eq "/restaurants"
+        end
+
+        context "an invalid restaurant" do
+          scenario "does not let you submit a name that is too short" do
+            fill_in "Name", with: 'Na'
+            click_button "Create Restaurant"
+            expect(page).not_to have_css "h2", text: "Na"
+            expect(page).to have_content "error"
+          end
+        end
+
+      end
+
+      context "when not signed up" do
+
+        before do
+          visit "/restaurants"
+          click_link "Add a restaurant"
+        end
+
+        it "inability to add restaurants" do
+          expect(current_path).not_to eq "/restaurants/new"
+        end
+        
       end
     end
   end
@@ -53,6 +72,7 @@ feature "Restaurants" do
 
       scenario "lets a user edit a restaurant" do
         visit "/restaurants"
+        sign_up
         click_link "Edit Nandos"
         fill_in "Name", with: "Grilled Chicken"
         click_button "Update Restaurant"
@@ -64,6 +84,7 @@ feature "Restaurants" do
     context "lets user delete restaurants" do
       scenario "removes a restaurant when user clicks a delete link" do
         visit "/restaurants"
+        sign_up
         click_link "Delete Nandos"
         expect(page).not_to have_css "h2", text: "Nandos"
         expect(page).to have_content "Nandos has been deleted"
@@ -73,11 +94,20 @@ feature "Restaurants" do
     context "prevents restaurant duplication" do
       scenario "restaurants added must be unique" do
         visit "/restaurants"
+        sign_up
         click_link "Add a restaurant"
         fill_in "Name", with: "Nandos"
         click_button "Create Restaurant"
         expect(page).to have_content "error"
       end
     end
+  end
+
+  def sign_up
+    click_link "Sign Up"
+    fill_in "Email", with: "test@example.com"
+    fill_in "Password", with: "password"
+    fill_in "Password confirmation", with: "password"
+    click_button "Sign Up"
   end
 end
