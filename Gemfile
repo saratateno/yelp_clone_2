@@ -26,6 +26,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #below enables login to website
 gem 'devise'
 
+#below enables login through Facebook:
+gem 'omniauth-facebook'
+
+#to enable storing of secretive information
+gem 'dotenv-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
