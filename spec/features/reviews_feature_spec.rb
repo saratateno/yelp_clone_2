@@ -23,7 +23,7 @@ feature "reviewing" do
     sign_up
     leave_review
     click_link "Review Nandos"
-
+    expect(page).to have_content "Cannot review same restaurant twice"
     expect(current_path).to eq "/restaurants"
   end
 
