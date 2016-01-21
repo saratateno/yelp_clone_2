@@ -27,19 +27,22 @@ feature "reviewing" do
     expect(current_path).to eq "/restaurants"
   end
 
-  def sign_up
-    click_link "Sign Up"
-    fill_in "Email", with: "test@example.com"
-    fill_in "Password", with: "password"
-    fill_in "Password confirmation", with: "password"
-    click_button "Sign Up"
+  scenario "user can delete own reviews" do
+    visit "/restaurants"
+    sign_up
+    leave_review
+    click_link "Delete review"
+    expect(page).not_to have_content "I don't even like chicken"
   end
 
-  def leave_review
-    click_link "Review Nandos"
-    fill_in "Opinion", with: "I don't even like chicken"
-    select "3", from: "Rating"
-    click_button "Leave Review"
+  scenario "user can't delete someone else's review" do
+    visit "/restaurants"
+    sign_up
+    leave_review
+    click_link "Sign Out"
+    sign_up(email: "me@email.com")
+    click_link "Delete review"
+    expect(page).to have_content "I don't even like chicken"
+    expect(page).to have_content "Incorrect User"
   end
-
 end

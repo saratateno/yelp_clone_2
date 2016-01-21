@@ -130,12 +130,4 @@ feature "Restaurants" do
       expect(page).to have_content "Incorrect User"
     end
   end
-
-  def sign_up (email: "test@example.com", password: "password")
-    click_link "Sign Up"
-    fill_in "Email", with: email
-    fill_in "Password", with: password
-    fill_in "Password confirmation", with: password
-    click_button "Sign Up"
-  end
 end
