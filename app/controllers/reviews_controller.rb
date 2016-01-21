@@ -3,7 +3,7 @@ class ReviewsController < ApplicationController
 
   def new
     @restaurant = Restaurant.find(params[:restaurant_id])
-    if ! current_user.has_reviewed?(@restaurant)
+    if current_user.has_reviewed?(@restaurant)
       flash[:alert] = 'Cannot review same restaurant twice'
       redirect_to "/restaurants"
     end
