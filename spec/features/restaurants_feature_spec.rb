@@ -48,7 +48,7 @@ feature "Restaurants" do
         it "inability to add restaurants" do
           expect(current_path).not_to eq "/restaurants/new"
         end
-        
+
       end
     end
   end
@@ -69,26 +69,6 @@ feature "Restaurants" do
         expect(page).to have_content "Nandos"
         expect(current_path).to eq "/restaurants/#{nandos.id}"
       end
-
-      scenario "lets a user edit a restaurant" do
-        visit "/restaurants"
-        sign_up
-        click_link "Edit Nandos"
-        fill_in "Name", with: "Grilled Chicken"
-        click_button "Update Restaurant"
-        expect(page).to have_content "Grilled Chicken"
-        expect(current_path).to eq "/restaurants"
-      end
-    end
-
-    context "lets user delete restaurants" do
-      scenario "removes a restaurant when user clicks a delete link" do
-        visit "/restaurants"
-        sign_up
-        click_link "Delete Nandos"
-        expect(page).not_to have_css "h2", text: "Nandos"
-        expect(page).to have_content "Nandos has been deleted"
-      end
     end
 
     context "prevents restaurant duplication" do
@@ -103,11 +83,59 @@ feature "Restaurants" do
     end
   end
 
-  def sign_up
+  context "when user has created restaurant" do
+    before do
+      visit "/restaurants"
+      sign_up
+      click_link "Add a restaurant"
+      fill_in "Name", with: "Nandos"
+      click_button "Create Restaurant"
+    end
+
+    scenario "can edit own restaurant" do
+      click_link "Edit Nandos"
+      fill_in "Name", with: "Grilled Chicken"
+      click_button "Update Restaurant"
+      expect(page).to have_content "Grilled Chicken"
+      expect(current_path).to eq "/restaurants"
+    end
+
+    scenario "can delete own restaurant" do
+      click_link "Delete Nandos"
+      expect(page).not_to have_css "h2", text: "Nandos"
+      expect(page).to have_content "Nandos has been deleted"
+    end
+  end
+
+  context "restaurants have been added by another user" do
+    before do
+      visit "/restaurants"
+      sign_up
+      click_link "Add a restaurant"
+      fill_in "Name", with: "Nandos"
+      click_button "Create Restaurant"
+      click_link "Sign Out"
+      sign_up(email:"new@example.com")
+    end
+
+    scenario "user cannot edit Nandos" do
+      click_link "Edit Nandos"
+      expect(current_path).to eq "/restaurants"
+      expect(page).to have_content "Incorrect User"
+    end
+
+    scenario "user cannot delete Nandos" do
+      click_link "Delete Nandos"
+      expect(page).to have_css "h2", text: "Nandos"
+      expect(page).to have_content "Incorrect User"
+    end
+  end
+
+  def sign_up (email: "test@example.com", password: "password")
     click_link "Sign Up"
-    fill_in "Email", with: "test@example.com"
-    fill_in "Password", with: "password"
-    fill_in "Password confirmation", with: "password"
+    fill_in "Email", with: email
+    fill_in "Password", with: password
+    fill_in "Password confirmation", with: password
     click_button "Sign Up"
   end
 end
