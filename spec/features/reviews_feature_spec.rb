@@ -45,4 +45,14 @@ feature "reviewing" do
     expect(page).to have_content "I don't even like chicken"
     expect(page).to have_content "Incorrect User"
   end
+
+  scenario 'displays an average rating for all reviews' do
+    visit "/restaurants"
+    sign_up
+    leave_review(opinion: 'So so', rating: '3')
+    click_link "Sign Out"
+    sign_up(email: "you@email.com")
+    leave_review(opinion: 'Great', rating: '5')
+    expect(page).to have_content('Average rating: 4')
+  end
 end

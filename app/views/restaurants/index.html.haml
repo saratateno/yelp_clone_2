@@ -11,6 +11,7 @@
       %ul
         - restaurant.reviews.each do |review|
           %li
+            %h3 Average rating: #{restaurant.average_rating.to_i}
             = review.opinion
             %strong= review.rating
             \/5
