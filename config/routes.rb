@@ -4,12 +4,10 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   resources :restaurants do
-    resources :reviews
+    resources :reviews do
+      resources :endorsements, shallow: true
+    end
   end
-
-  # devise_scope :user do
-  #   delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
-  # end
 
   root to: "restaurants#index"
 

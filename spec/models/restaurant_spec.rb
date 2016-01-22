@@ -56,8 +56,8 @@ describe Restaurant, type: :model do
       restaurant = Restaurant.create(name: "City Work", user: User.create)
       user1 = User.create(email: 'test@test.com', password: "password", password_confirmation: "password")
       user2 = User.create(email: 'email@test.com', password: "password", password_confirmation: "password")
-      restaurant.reviews.create_with_user!({rating: 1}, user1)
-      restaurant.reviews.create_with_user!({rating: 5}, user2)
+      restaurant.reviews.create_with_user({rating: 1}, user1)
+      restaurant.reviews.create_with_user({rating: 5}, user2)
       expect(restaurant.average_rating).to eq 3
     end
   end

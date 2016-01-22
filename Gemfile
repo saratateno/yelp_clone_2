@@ -60,4 +60,5 @@ group :test do
   gem "database_cleaner"
   #below gem enables ActiveRecord validation checking
   gem "rspec-collection_matchers"
+  gem "poltergeist"
 end

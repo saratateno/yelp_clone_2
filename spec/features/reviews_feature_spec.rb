@@ -53,6 +53,6 @@ feature "reviewing" do
     click_link "Sign Out"
     sign_up(email: "you@email.com")
     leave_review(opinion: 'Great', rating: '5')
-    expect(page).to have_content('Average rating: 4')
+    expect(page).to have_content('Average rating: ★★★★☆')
   end
 end

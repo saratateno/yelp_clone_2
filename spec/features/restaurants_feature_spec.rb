@@ -10,9 +10,7 @@ feature "Restaurants" do
     end
 
     context "creating restaurants" do
-
       context "when signed up" do
-
         before do
           visit "/restaurants"
           sign_up
@@ -39,7 +37,6 @@ feature "Restaurants" do
       end
 
       context "when not signed up" do
-
         before do
           visit "/restaurants"
           click_link "Add a restaurant"
@@ -48,7 +45,6 @@ feature "Restaurants" do
         it "inability to add restaurants" do
           expect(current_path).not_to eq "/restaurants/new"
         end
-
       end
     end
   end
